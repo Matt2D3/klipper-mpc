@@ -445,10 +445,10 @@ class ControlMPC:
 
         pid_output = max(0.0, min(1.0, power / self.mpc.data.heater_power))
         errorMessage = "normal"
-        if mpc.sensor_temp >= 500 or mpc.sensor_temp < 0:
+        if self.mpc.sensor_temp >= 500 or self.mpc.sensor_temp < 0:
             errorMessage = "bad calculated sensor temp"
             pid_output = 0
-        if mpc.block_temp >= 500 or mpc.block_temp < 0:
+        if self.mpc.block_temp >= 500 or self.mpc.block_temp < 0:
             if errorMessage != "normal":
                 errorMessage = "bad calculated sensor and block temp"
             else:
