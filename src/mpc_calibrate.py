@@ -358,7 +358,7 @@ block_responsiveness = {block_responsiveness}
             f"sensor_responsiveness: {sensor_responsiveness:.04f}\n"
         )
 
-        return (block_heat_capacity, sensor_responsiveness)
+        return (block_heat_capacity, abs(sensor_responsiveness))
 
     def stabilize_system(self, read_time, temp, target_temp):
         time_diff = read_time - self.mpc.prev_temp_time
@@ -505,7 +505,7 @@ block_responsiveness = {block_responsiveness}
 
             # Update analytic tuning values based on the above
             self.mpc.data.block_heat_capacity = self.mpc.data.ambient_xfer_coeff_fan0 / block_responsiveness
-            self.mpc.data.sensor_responsiveness = block_responsiveness / (1.0 - (self.mpc.ambient_temp - asymp_temp) * math.exp(-block_responsiveness * self.t1_time) / (self.t1 - asymp_temp))
+            self.mpc.data.sensor_responsiveness = abs(block_responsiveness / (1.0 - (self.mpc.ambient_temp - asymp_temp) * math.exp(-block_responsiveness * self.t1_time) / (self.t1 - asymp_temp)))
 
         # Tuning is over, move into None state:
         self.state = None
