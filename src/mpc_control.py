@@ -399,14 +399,14 @@ class ControlMPC:
         blocktempdelta += (self.mpc.ambient_temp - self.mpc.block_temp) * ambient_xfer_coeff * time_diff / self.mpc.data.block_heat_capacity
         self.mpc.block_temp += blocktempdelta
         if self.mpc.block_temp > 500 or self.mpc.block_temp<0:
-            raise Exception("calculated block temp is severly out of range")
-
+            raise MPC.error("calculated block temp is severly out of range")
+            
         # const float sensortempdelta = (hotend.modeled_block_temp - hotend.modeled_sensor_temp) * (constants.sensor_responsiveness * MPC_dT);
         # hotend.modeled_sensor_temp += sensortempdelta;
         sensortempdelta = (self.mpc.block_temp - self.mpc.sensor_temp) * (self.mpc.data.sensor_responsiveness * time_diff)
         self.mpc.sensor_temp += sensortempdelta
         if self.mpc.sensor_temp > 500 or self.mpc.sensor_temp<0:
-            raise Exception("calculated sensor temp is severly out of range")
+            raise MPC.error("calculated sensor temp is severly out of range")
 
         # Any delta between sensor_temp and current temperature is either model
         # error diverging slowly or (fast) noise. Slowly correct towards this temperature
