@@ -347,7 +347,7 @@ block_responsiveness = {block_responsiveness}
         # calculate the constants:
 
         block_heat_capacity = self.mpc.data.heater_power / rate_fastest
-        sensor_responsiveness = (rate_fastest / (rate_fastest * time_fastest + self.mpc.ambient_temp - time_fastest))*-1
+        sensor_responsiveness = abs(rate_fastest / (rate_fastest * time_fastest + self.mpc.ambient_temp - time_fastest))
 
         self.respond_info(
             "differential tuning results:\n"
