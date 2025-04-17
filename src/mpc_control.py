@@ -398,15 +398,13 @@ class ControlMPC:
         blocktempdelta = last_pwm_value * self.mpc.data.heater_power * time_diff / self.mpc.data.block_heat_capacity
         blocktempdelta += (self.mpc.ambient_temp - self.mpc.block_temp) * ambient_xfer_coeff * time_diff / self.mpc.data.block_heat_capacity
         self.mpc.block_temp += blocktempdelta
-        if self.mpc.block_temp > 500 or self.mpc.block_temp<0:
-            raise self.config.error("calculated block temp is severly out of range")
+
             
         # const float sensortempdelta = (hotend.modeled_block_temp - hotend.modeled_sensor_temp) * (constants.sensor_responsiveness * MPC_dT);
         # hotend.modeled_sensor_temp += sensortempdelta;
         sensortempdelta = (self.mpc.block_temp - self.mpc.sensor_temp) * (self.mpc.data.sensor_responsiveness * time_diff)
         self.mpc.sensor_temp += sensortempdelta
-        if self.mpc.sensor_temp > 500 or self.mpc.sensor_temp<0:
-            raise self.config.error("calculated sensor temp is severly out of range")
+
 
         # Any delta between sensor_temp and current temperature is either model
         # error diverging slowly or (fast) noise. Slowly correct towards this temperature
@@ -446,7 +444,17 @@ class ControlMPC:
         # pid_output = float(int(max(0.0, min(255.0, pid_output)))//2) / 127.0
 
         pid_output = max(0.0, min(1.0, power / self.mpc.data.heater_power))
-
+        errorMessage = "normal"
+        if mpc.sensor_temp >= 500 or mpc.sensor_temp < 0:
+            errorMessage = "bad calculated sensor temp"
+            pid_output = 0
+        if mpc.block_temp >= 500 or mpc.block_temp < 0:
+            if errorMessage != "normal":
+                errorMessage = "bad calculated sensor and block temp"
+            else:
+                errorMessage = "bad calculated block temp"
+            pid_output = 0
+            
         if read_time > self.next_output_time:
             self.control.log((
                 "MPC Status:\n"
@@ -458,6 +466,7 @@ class ControlMPC:
                 f"ambient_temp: {self.mpc.ambient_temp}\n"
                 f"block_temp: {self.mpc.block_temp}\n"
                 f"sensor_temp: {self.mpc.sensor_temp}\n"
+                f"state: {errorMessage}\n"
             ))
             self.next_output_time = read_time + 1.0
 
