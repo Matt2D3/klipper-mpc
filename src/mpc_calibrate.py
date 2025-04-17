@@ -111,6 +111,7 @@ class MPCCalibrate:
             raise gcmd.error("mpc_calibrate interrupted")
 
         # Save MPC values and report them on the command line:
+        mpc.sensor_responsiveness = abs(mpc.sensor_responsiveness)
         mpc.save(config, log=True)
 
 class ControlAutoTuneState(Enum):
