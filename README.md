@@ -26,7 +26,7 @@ user@pi:~$ cd ~/
 
 Clone the repository
 ```console
-user@pi:~$ git clone git@github.com:Luro02/klipper-mpc.git
+user@pi:~$ git clone https://github.com/Matt2D3/klipper-mpc.git
 ```
 
 Then open the `~/printer_data/config/moonraker.conf` with an editor like `nano` and add the following code to the end of it:
@@ -39,7 +39,7 @@ user@pi:~$ nano ~/printer_data/config/moonraker.conf
 type: git_repo
 channel: dev
 path: ~/klipper-mpc
-origin: https://github.com/Luro02/klipper-mpc.git
+origin: https://github.com/Matt2D3/klipper-mpc.git
 managed_services: klipper
 primary_branch: master
 install_script: install.sh
