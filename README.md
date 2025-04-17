@@ -105,6 +105,7 @@ A substantial amount of code is based on the klipper and marlin source code. The
 `src/` folder is licensed under GPL3.
 
 #To do
+
 add support for a dedicated ambient temperature sensor
 fix an issue where the auto calibration saves sensor_responsiveness as a negative value (if you are testing this, make sure that sensor_responsiveness is positive in your config before enabling mpc)
 figure out a way to autodetect heater power
