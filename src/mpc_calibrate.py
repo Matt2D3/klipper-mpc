@@ -407,7 +407,7 @@ block_responsiveness = {block_responsiveness}
         elif self.wait_until_time is not None and read_time >= self.wait_until_time:
             self.wait_until_time = None
 
-        if self.wait_for_settle and not has_settled_at_target(read_time, temp, target_temp, self.settle_window, window_size=30, tolerance=0.1):
+        if self.wait_for_settle and not has_settled_at_target(read_time, temp, target_temp, self.settle_window, window_size=30, tolerance=self.mpc.data.sensor_tolerance/2):
             return
         elif self.wait_for_settle:
             self.respond_info(f"[{read_time:.3f}] Algorithm settled around target {target_temp:.2f}, starting measurements...")
