@@ -458,7 +458,7 @@ block_responsiveness = {block_responsiveness}
             #
             # TODO: how much of a difference is there, when you use the old formula?
             self.total_energy_fan0 += self.mpc.data.heater_power * heater_pwm * time_diff + (self.last_temp - temp) * self.mpc.data.block_heat_capacity
-            self.fan0_measurements += time_diff
+            self.fan0_measurements += time_diff 
             self.sample_count += 1
             self.fan0_ambient_temp = self.mpc.ambient_temp
         elif self.sample_count < self.max_sample_count and self.mpc.include_fan:
