@@ -7,7 +7,7 @@ from typing import Optional
 DEFAULT_CYCLE_TIME = 0.3
 DEFAULT_AMBIENT_TEMP = 25.0
 
-def has_settled_at_target(read_time: float, temp: float, target_temp: float, window: list[(float, float)], window_size: int = 15, tolerance: float = 0.2) -> bool:
+def has_settled_at_target(read_time: float, temp: float, target_temp: float, window: list[(float, float)], window_size: int = 15, tolerance: float = self.mpc.data.sensor_tolerance) -> bool:
     window.append((read_time, temp))
 
     while len(window) > window_size:
@@ -223,6 +223,8 @@ class MPCData:
     ambient_xfer_coeff_fan0: float = 0.0
     # (W/K) Heat transfer coefficients from heat block to room air with fan on full.
     ambient_xfer_coeff_fan255: Optional[float] = None
+    # sensor tolerance, how many degrees does the sensor hover arround the actual temperature
+    sensor_tolerance: float = 0.2
 
     # TODO: save fan_coeff instead?
 

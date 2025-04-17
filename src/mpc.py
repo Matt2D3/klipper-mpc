@@ -17,6 +17,7 @@ class PrinterMPC:
         gcode.register_command('MPC_ENABLE', self.cmd_MPC_ENABLE, desc=self.cmd_MPC_ENABLE_help)
         gcode.register_command('MPC_UPDATE', self.cmd_MPC_UPDATE, desc=self.cmd_MPC_UPDATE_help)
 
+
     cmd_MPC_ENABLE_help = "Enable MPC algorithm for heating"
     def cmd_MPC_ENABLE(self, gcmd):
         heater_name = gcmd.get('HEATER', default="extruder")
@@ -79,7 +80,7 @@ class PrinterMPC:
             mpc.data.block_heat_capacity = self.mpc.data.ambient_xfer_coeff_fan0 / block_responsiveness
             mpc.data.sensor_responsiveness = block_responsiveness / (1.0 - (self.mpc.ambient_temp - asymp_temp) * math.exp(-block_responsiveness * self.t1_time) / (self.t1 - asymp_temp))
 
-
+        
     def register(self, name: str, section: "MPCSection"):
         self._heaters[name] = section
 

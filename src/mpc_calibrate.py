@@ -183,8 +183,7 @@ class ControlAutoTune:
             self.control_temp.set_fan_speed(read_time, 1.0)
             return
 
-
-        if has_settled_at_target(read_time, temp, self.ambient_target, self.settle_window, window_size=20, tolerance=0.2):
+        if has_settled_at_target(read_time, temp, self.ambient_target, self.settle_window, window_size=20, tolerance=self.mpc.data.sensor_tolerance):
             # ensure that the ambient temp is not above 30°C:
             self.mpc.ambient_temp = min(self.ambient_target, 30.0, temp)
             self.control_temp.set_fan_speed(read_time, 0.0)
