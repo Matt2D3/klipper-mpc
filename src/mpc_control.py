@@ -397,13 +397,13 @@ class ControlMPC:
         # update the modeled temperatures
         blocktempdelta = last_pwm_value * self.mpc.data.heater_power * time_diff / self.mpc.data.block_heat_capacity
         blocktempdelta += (self.mpc.ambient_temp - self.mpc.block_temp) * ambient_xfer_coeff * time_diff / self.mpc.data.block_heat_capacity
-        self.mpc.block_temp += blocktempdelta
+        self.mpc.block_temp -= blocktempdelta
 
             
         # const float sensortempdelta = (hotend.modeled_block_temp - hotend.modeled_sensor_temp) * (constants.sensor_responsiveness * MPC_dT);
         # hotend.modeled_sensor_temp += sensortempdelta;
         sensortempdelta = (self.mpc.block_temp - self.mpc.sensor_temp) * (self.mpc.data.sensor_responsiveness * time_diff)
-        self.mpc.sensor_temp += sensortempdelta
+        self.mpc.sensor_temp -= sensortempdelta
 
 
         # Any delta between sensor_temp and current temperature is either model
