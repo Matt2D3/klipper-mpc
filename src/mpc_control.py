@@ -289,6 +289,7 @@ class MPCData:
 
         for (option, value) in values:
             # do not overwrite values that have not changed:
+            self.respond_info(option,value)
             if option in self.config_values and f"{self.config_values[option]:.5f}" == value:
                 continue
 

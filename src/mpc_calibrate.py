@@ -194,6 +194,8 @@ class ControlAutoTune:
             self.settle_window = []
 
             self.respond_info(f"Found ambient_temp={self.mpc.ambient_temp}")
+            if self.mpc.ambient_temp >=30:
+                self.respond_info("ambient temperature is higher than normal\n ambient temperature reading may be incorrect\n if you have problems, try letting the printer cool down all the way and running the calibration again")
             return
 
         # The measured temperature is lower than the targeted ambient temperature
