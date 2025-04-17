@@ -282,7 +282,7 @@ block_responsiveness = {block_responsiveness}
         if self.tuning_type == MPCTuningType.AUTO or self.tuning_type == MPCTuningType.FORCE_ASYMPTOTIC:
             # Analytic tuning
             block_heat_capacity = ambient_xfer_coeff_fan0 / block_responsiveness
-            sensor_responsiveness = abs(block_responsiveness / (1.0 - (self.mpc.ambient_temp - asymp_temp) * math.exp(-block_responsiveness * self.t1_time) / (self.t1 - asymp_temp)))
+            sensor_responsiveness = block_responsiveness / (1.0 - (self.mpc.ambient_temp - asymp_temp) * math.exp(-block_responsiveness * self.t1_time) / (self.t1 - asymp_temp))
 
             self.respond_info(f"block_heat_capacity={block_heat_capacity}\nsensor_responsiveness={sensor_responsiveness}")
 
@@ -304,7 +304,7 @@ block_responsiveness = {block_responsiveness}
         self.respond_info(f"sensor_temp={self.mpc.sensor_temp}")
         self.respond_info(f"asymp_temp={asymp_temp}")
 
-        self.mpc.data.sensor_responsiveness = sensor_responsiveness
+        self.mpc.data.sensor_responsiveness = abs(sensor_responsiveness)
         self.mpc.data.block_heat_capacity = block_heat_capacity
         self.mpc.data.ambient_xfer_coeff_fan0 = ambient_xfer_coeff_fan0
 
@@ -347,7 +347,7 @@ block_responsiveness = {block_responsiveness}
         # calculate the constants:
 
         block_heat_capacity = self.mpc.data.heater_power / rate_fastest
-        sensor_responsiveness = abs(rate_fastest / (rate_fastest * time_fastest + self.mpc.ambient_temp - time_fastest))
+        sensor_responsiveness = (rate_fastest / (rate_fastest * time_fastest + self.mpc.ambient_temp - time_fastest))
 
         self.respond_info(
             "differential tuning results:\n"
