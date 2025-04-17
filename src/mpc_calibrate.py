@@ -282,7 +282,7 @@ block_responsiveness = {block_responsiveness}
         if self.tuning_type == MPCTuningType.AUTO or self.tuning_type == MPCTuningType.FORCE_ASYMPTOTIC:
             # Analytic tuning
             block_heat_capacity = ambient_xfer_coeff_fan0 / block_responsiveness
-            sensor_responsiveness = block_responsiveness / (1.0 - (self.mpc.ambient_temp - asymp_temp) * math.exp(-block_responsiveness * self.t1_time) / (self.t1 - asymp_temp))
+            sensor_responsiveness = abs(block_responsiveness / (1.0 - (self.mpc.ambient_temp - asymp_temp) * math.exp(-block_responsiveness * self.t1_time) / (self.t1 - asymp_temp)))
 
             self.respond_info(f"block_heat_capacity={block_heat_capacity}\nsensor_responsiveness={sensor_responsiveness}")
 
