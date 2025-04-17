@@ -7,7 +7,7 @@ from typing import Optional
 DEFAULT_CYCLE_TIME = 0.3
 DEFAULT_AMBIENT_TEMP = 25.0
 
-def has_settled_at_target(read_time: float, temp: float, target_temp: float, window: list[(float, float)], window_size: int = 15, tolerance: float = self.mpc.data.sensor_tolerance) -> bool:
+def has_settled_at_target(read_time: float, temp: float, target_temp: float, window: list[(float, float)], window_size: int = 15, tolerance: float = 0.2) -> bool:
     window.append((read_time, temp))
 
     while len(window) > window_size:
