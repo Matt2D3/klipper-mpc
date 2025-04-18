@@ -418,8 +418,7 @@ class ControlMPC:
                 self.mpc.ambient_temp += max(delta_to_apply, self.mpc.data.min_ambient_change * time_diff)
             else:
                 self.mpc.ambient_temp += min(delta_to_apply, -self.mpc.data.min_ambient_change * time_diff)
-            if self.mpc.ambient_temp < 10:
-                self.mpc.ambient_temp = 10
+            
 
         # float power = 0.0;
         # if (hotend.target != 0 && TERN1(HEATER_IDLE_HANDLER, !heater_idle[ee].timed_out)) {
