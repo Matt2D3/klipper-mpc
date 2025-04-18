@@ -288,12 +288,6 @@ class MPCData:
         values = [(field.name, f"{getattr(self, field.name):.5f}") for field in fields(self)]
 
         for (option, value) in values:
-            # do not overwrite values that have not changed:
-
-            if option in self.config_values and self.config_values[option] == value:
-                continue
-                
-                
             configfile.set(section_name, option, value)
 
 
@@ -424,6 +418,8 @@ class ControlMPC:
                 self.mpc.ambient_temp += max(delta_to_apply, self.mpc.data.min_ambient_change * time_diff)
             else:
                 self.mpc.ambient_temp += min(delta_to_apply, -self.mpc.data.min_ambient_change * time_diff)
+            if self.mpc.ambient_temp < 10:
+                self.mpc.ambient_temp = 10
 
         # float power = 0.0;
         # if (hotend.target != 0 && TERN1(HEATER_IDLE_HANDLER, !heater_idle[ee].timed_out)) {
@@ -455,7 +451,7 @@ class ControlMPC:
                 errorMessage = "bad calculated block temp"
             pid_output = 0
             
-        if read_time > self.next_output_time:
+        if read_time > self.next_output_time and errorMessage != "normal":
             self.control.log((
                 "MPC Status:\n"
                 f"read_time: {read_time}\n"
